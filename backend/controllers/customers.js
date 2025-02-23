@@ -78,13 +78,14 @@ const deleteCustomer = async (req, res) => {
 //update - update a customer
 const updateCustomer = async (req, res) => {
     const {first_name, last_name, address, email, phone_number} = req.body;
-    const {id} = req.params;
+    const { id  } = req.params;
     const data = {};
     if(first_name) data.first_name = first_name;
     if(last_name) data.last_name = last_name;
     if(address) data.address = address;
     if(email) data.email = email;
     if(phone_number) data.phone_number = phone_number;
+
 
     if(Object.keys(data).length === 0){
         return res.status(400).json({
@@ -93,13 +94,14 @@ const updateCustomer = async (req, res) => {
     }
     try {
         const cust = await prisma.customers.update({
-            data: data,
+            data,
             where: {
-                customer_id: Number(id) }
+                customer_id: Number(id)}
         });
+
         res.status(200).json({
             status:"ok",
-            message: `User with ID ${cust.customer_id} updated successfully`,
+            message: `User with ID ${id} updated successfully`,
             user: cust
         });
     }catch(err){
