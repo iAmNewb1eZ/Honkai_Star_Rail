@@ -1,20 +1,17 @@
-import './assets/main.css'
-
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import { Quasar } from 'quasar'
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 
-// Import icon libraries
-import '@quasar/extras/material-icons/material-icons.css'
-
-// Import Quasar css
-import 'quasar/src/css/index.sass'
+const vuetify = createVuetify({
+  components,
+  directives,
+})
 
 const app = createApp(App)
-
 app.use(router)
-
-app.use(Quasar, { config: {}, plugins: {} })
-
+app.use(vuetify)
 app.mount('#app')

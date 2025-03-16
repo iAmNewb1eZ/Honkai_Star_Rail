@@ -7,80 +7,127 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model customers {
-  customer_id  Int     @id @default(autoincrement())
-  first_name   String  @db.VarChar(50)
-  last_name    String  @db.VarChar(50)
-  email        String? @unique @db.VarChar(100) // Optional, but unique
-  address      String? @db.VarChar(255)
-  phone_number String? @db.VarChar(20)
-  orders       orders[]
+model admin {
+  A_id       String  @id @db.VarChar(10)
+  A_name     String? @db.VarChar(100)
+  A_password String? @db.VarChar(100)
 }
 
-model orderdetail {
-  order_id   Int
-  product_id Int
-  quantity   Int
-  unit_price Decimal  @db.Decimal(10, 2)
-  orders     orders   @relation(fields: [order_id], references: [order_id], onDelete: NoAction, onUpdate: NoAction, map: "orderdetail_ibfk_1")
-  products   products @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction, map: "orderdetail_ibfk_2")
-
-  @@id([order_id, product_id])
-  @@index([product_id], map: "product_id")
+model character {
+  C_id             Int                   @id
+  C_name           String?               @db.VarChar(100)
+  C_path           character_C_path?
+  C_element        character_C_element?
+  C_role           character_C_role?
+  C_rarelity       character_C_rarelity?
+  C_images         String?               @db.VarChar(100)
+  recomment_record recomment_record[]
 }
 
-model orders {
-  order_id     Int                  @id
-  customer_id  Int
-  order_date   DateTime             @default(now()) @db.DateTime(0)
-  order_status orders_order_status?
-  total_amount Decimal              @db.Decimal(10, 2)
-  orderdetail  orderdetail[]
-  customers    customers            @relation(fields: [customer_id], references: [customer_id], onDelete: NoAction, onUpdate: NoAction, map: "orders_ibfk_1")
-  payments     payments[]
-
-  @@index([customer_id], map: "customer_id")
+model lightcone {
+  LC_id            String                 @id @db.VarChar(10)
+  LC_name          String?                @db.VarChar(100)
+  LC_path          lightcone_LC_path?
+  LC_Effect        String?                @db.Text
+  LC_images        String?                @db.VarChar(100)
+  LC_rarelity      lightcone_LC_rarelity?
+  recomment_record recomment_record[]
 }
 
-model payments {
-  payment_id     Int                      @id @default(autoincrement())
-  order_id       Int
-  payment_method String?                  @db.VarChar(50)
-  payment_date   DateTime?                @db.DateTime(0)
-  amount         Decimal                  @db.Decimal(10, 2)
-  remark         String?                  @db.VarChar(255)
-  payment_status payments_payment_status?
-  orders         orders                   @relation(fields: [order_id], references: [order_id], onDelete: NoAction, onUpdate: NoAction, map: "payments_ibfk_1")
-
-  @@index([order_id], map: "order_id")
+model planar_ornaments {
+  PO_id            String             @id @db.VarChar(10)
+  PO_name          String?            @db.VarChar(100)
+  PO_Effect        String?            @db.Text
+  recomment_record recomment_record[]
 }
 
-model products {
-  product_id  Int           @id
-  name        String        @db.VarChar(100)
-  description String?       @db.Text
-  price       Decimal       @db.Decimal(10, 2)
-  category    String?       @db.VarChar(50)
-  image_url   String?       @db.VarChar(255)
-  orderdetail orderdetail[]
+model recomment_record {
+  RC_id            Int               @id @default(autoincrement())
+  RC_name          String?           @db.VarChar(100)
+  C_id             Int?
+  C_name           String?           @db.VarChar(100)
+  R_id             String?           @db.VarChar(10)
+  R_name           String?           @db.VarChar(100)
+  R_Effect_4       String?           @db.Text
+  LC_id            String?           @db.VarChar(10)
+  LC_name          String?           @db.VarChar(100)
+  LC_Effect        String?           @db.Text
+  PO_id            String?           @db.VarChar(10)
+  PO_name          String?           @db.VarChar(100)
+  PO_Effect        String?           @db.Text
+  uid              Int?
+  character        character?        @relation(fields: [C_id], references: [C_id], onDelete: NoAction, onUpdate: NoAction, map: "recomment_record_character_FK")
+  lightcone        lightcone?        @relation(fields: [LC_id], references: [LC_id], onDelete: NoAction, onUpdate: NoAction, map: "recommentrecord_lightcone_FK")
+  planar_ornaments planar_ornaments? @relation(fields: [PO_id], references: [PO_id], onDelete: NoAction, onUpdate: NoAction, map: "recommentrecord_planar_ornaments_FK")
+  relic_set        relic_set?        @relation(fields: [R_id], references: [R_id], onDelete: NoAction, onUpdate: NoAction, map: "recommentrecord_relic_set_FK")
+  user             user?             @relation(fields: [uid], references: [uid], onDelete: NoAction, onUpdate: NoAction, map: "recomment_record_user_FK")
+
+  @@index([C_id], map: "recomment_record_character_FK")
+  @@index([uid], map: "recomment_record_user_FK")
+  @@index([LC_id], map: "recomment_record_lightcone_FK")
+  @@index([PO_id], map: "recomment_record_planar_ornaments_FK")
+  @@index([R_id], map: "recomment_record_relic_set_FK")
 }
 
-model users {
-  UserName String  @unique(map: "Users_UNIQUE") @db.VarChar(100)
-  UserID   Int     @id @default(autoincrement())
-  Password String  @db.VarChar(100)
-  Status   String? @db.VarChar(100)
-  Role     String? @db.VarChar(100)
+model relic_set {
+  R_id             String             @id @db.VarChar(15)
+  R_name           String?            @db.VarChar(100)
+  R_Effect_2       String?            @db.Text
+  R_Effect_4       String?            @db.Text
+  recomment_record recomment_record[]
 }
 
-enum orders_order_status {
-  processing
-  completed
-  cancelled
+model user {
+  uid              Int                @id
+  uname            String?            @db.VarChar(100)
+  upassword        String?            @db.VarChar(100)
+  recomment_record recomment_record[]
 }
 
-enum payments_payment_status {
-  pending
-  completed
-  failed
+enum character_C_path {
+  Destruction
+  Preservation
+  Nihility
+  The_Hunt     @map("The Hunt")
+  Harmony
+  Erudition
+  Abundance
+}
+
+enum lightcone_LC_path {
+  Destruction
+  Preservation
+  Nihility
+  The_Hunt     @map("The Hunt")
+  Harmony
+  Erudition
+  Abundance
+}
+
+enum character_C_element {
+  Ice
+  Fire
+  Quantum
+  Wind
+  Lightning
+  Physical
+  Imaginary
+}
+
+enum character_C_role {
+  DPS
+  Debuffer
+  Buffer
+  Tank
+  Healer
+}
+
+enum lightcone_LC_rarelity {
+  FIVE
+  FOUR
+}
+
+enum character_C_rarelity {
+  FIVE
+  FOUR
 }
