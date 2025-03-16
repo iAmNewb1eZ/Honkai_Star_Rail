@@ -1,0 +1,10 @@
+ติดตั้ง package ทั้งหมด
+npm i
+
+ของหลังบ้าน
+cd backend
+npx nodemon npm start
+
+ของหน้าบ้าน
+cd frontend
+npm run dev
