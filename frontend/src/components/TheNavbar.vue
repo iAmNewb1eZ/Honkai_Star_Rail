@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <div class="navbar-brand">
-      <img src="https://shorturl.at/Fu1mI" alt="Star Rail Space Logo" class="logo">
+      <img src="https://shorturl.at/uGfxl" alt="Star Rail Space Logo" class="logo">
       <router-link to="/" class="site-title">Star Rail Space</router-link>
     </div>
     <div class="navbar-menu">
