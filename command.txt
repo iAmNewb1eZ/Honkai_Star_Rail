@@ -8,3 +8,5 @@ npx nodemon npm start
 ของหน้าบ้าน
 cd frontend
 npm run dev
+
+*เนื่องจาก db ไม่ได้อยู่ในรูปแบบ server จึงจำเป็นต้องโหลด db เพื่อใช้งาน
