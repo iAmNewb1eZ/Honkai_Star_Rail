@@ -4,7 +4,7 @@
 
 ---
 
-## 💻 เทคโนโลยีที่ใช้
+## 🛠️ Tools
 - **Front-End:** Vue.js  
 - **Back-End:** Node.js, Express  
 - **Database:** MySQL (Local Database)  
