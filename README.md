@@ -24,7 +24,8 @@ npm install
 ```bash
 # เข้าไปที่โฟลเดอร์ backend
 cd backend
-
+```
+```bash
 # รันเซิร์ฟเวอร์ Node.js
 npx nodemon npm start
 ```
@@ -32,7 +33,8 @@ npx nodemon npm start
 ```bash
 # เข้าไปที่โฟลเดอร์ frontend
 cd frontend
-
+```
+```bash
 # รัน Front-End
 npm run dev
 ```
